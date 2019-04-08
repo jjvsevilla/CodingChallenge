@@ -1,9 +1,11 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
+import { Query, Mutation, ApolloConsumer } from "react-apollo";
 
 import TASTING_SESSIONS from "../../../graphql/queries/TASTING_SESSIONS";
 import DELETE_TASTING_SESSION from "../../../graphql/mutations/DELETE_TASTING_SESSION";
 import TastingSession from './TastingSession';
+import TASTING_SESSION from "../../../graphql/queries/TASTING_SESSION";
+import LOCAL_TASTING_SESSION from "../../../graphql/queries/LOCAL_TASTING_SESSION";
 
 const ListTastingSessions = props => {
   return (
@@ -25,13 +27,39 @@ const ListTastingSessions = props => {
                   key={`tastingSessionMutation${i}`}
                 >
                 {postMutation => (
-                  <TastingSession
-                    key={`tastingSession${i}`}
-                    {...tastingSession}
-                    selectTastingSession={props.selectTastingSession}
-                    deleteTastingSession={postMutation}
-                    toggle={props.toggle}
-                  />)}
+                  <ApolloConsumer>
+                    {client => (
+                      <TastingSession
+                        key={`tastingSession${i}`}
+                        {...tastingSession}
+                        selectTastingSession={async (id) => {
+                          const { data } = await client.query({
+                            query: TASTING_SESSION,
+                            variables: { id }
+                          });
+                          const dataCache = client.cache.readQuery({ query: LOCAL_TASTING_SESSION });
+
+                          dataCache.sessionID = data.tastingSession.id;
+                          dataCache.sessionWines = data.tastingSession.wines;
+                          dataCache.sessionWineTasters = data.tastingSession.wineTasters;
+                          dataCache.sessionReviews = data.tastingSession.reviews;
+
+                          client.cache.writeQuery({
+                            query: LOCAL_TASTING_SESSION,
+                            data: {
+                              sessionID: dataCache.sessionID,
+                              sessionWines: [...dataCache.sessionWines],
+                              sessionWineTasters: [...dataCache.sessionWineTasters],
+                              sessionReviews: [...dataCache.sessionReviews]
+                            }
+                          });
+                          props.toggle(false);
+                        }}
+                        deleteTastingSession={postMutation}
+                      />
+                    )}
+                  </ApolloConsumer>
+                )}
                 </Mutation>
               ))}
             </ul>

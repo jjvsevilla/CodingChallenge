@@ -22,8 +22,6 @@ class Home extends Component {
     this.setState(prevState => ({ isUpdating: !prevState.isUpdating }))
   }
 
-  deleteTastingSession = (tastingSessionId) => {}
-
   render() {
     const { isOpen, isNewFlow } = this.state;
     return (
@@ -49,41 +47,7 @@ class Home extends Component {
 
         {isOpen && <CreateTastingSession toggle={this.toggle} isNewFlow={isNewFlow} />}
 
-        {!isOpen &&
-        <ApolloConsumer>
-          {client => (
-            <ListTastingSessions
-              toggle={this.toggle}
-              selectTastingSession={async (tastingSessionId, toggleCallback, isNewFlow) => {
-                const { data } = await client.query({
-                  query: TASTING_SESSION,
-                  variables: { id: tastingSessionId }
-                });
-
-                const query = LOCAL_TASTING_SESSION;
-                const dataCache = await client.cache.readQuery({ query });
-
-                dataCache.sessionID = data.tastingSession.id;
-                dataCache.sessionWines = data.tastingSession.wines;
-                dataCache.sessionWineTasters = data.tastingSession.wineTasters;
-                dataCache.sessionReviews = data.tastingSession.reviews;
-
-                client.cache.writeQuery({
-                  query,
-                  data: {
-                    sessionID: dataCache.sessionID,
-                    sessionWines: [...dataCache.sessionWines],
-                    sessionWineTasters: [...dataCache.sessionWineTasters],
-                    sessionReviews: [...dataCache.sessionReviews]
-                  }
-                });
-                toggleCallback(isNewFlow);
-                return null;
-              }}
-              deleteTastingSession={this.deleteTastingSession}
-            />
-          )}
-        </ApolloConsumer>}
+        {!isOpen && <ListTastingSessions toggle={this.toggle} />}
       </React.Fragment>
     );
   }

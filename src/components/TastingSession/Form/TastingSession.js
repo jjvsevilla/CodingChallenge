@@ -15,9 +15,16 @@ const TastingSession = ({
 }) => {
   return (
     <li>
-      Tasting SessionId: {id} - Wines: {`${totalItems(wines)}`} - WineTasters: {`${totalItems(wineTasters)}`} - Reviews: {`${totalItems(reviews)}`}
-      <button onClick={() => selectTastingSession(id, toggle, false)}>Edit</button>
-      <button onClick={() => deleteTastingSession(id)}>Delete</button>
+      <div>
+        <div>
+          <p>Tasting SessionId: {id}</p>
+          <p>Wines: {`${totalItems(wines)}`} - WineTasters: {`${totalItems(wineTasters)}`} - Reviews: {`${totalItems(reviews)}`}</p>
+        </div>
+        <div>
+          <button onClick={() => selectTastingSession(id)}>Edit</button>
+          <button onClick={() => deleteTastingSession(id)}>Delete</button>
+        </div>
+      </div>
     </li>
   );
 };
