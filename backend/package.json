@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "graphql-init": "graphql init",
+    "start": "nodemon -e js,graphql -x node src/index.js",
+    "debug": "nodemon -e js,graphql -x node --inspect src/index.js",
+    "playground": "graphql playground --dotenv variables.env",
+    "deploy": "prisma deploy --env-file variables.env",
+    "dev": "npm-run-all --parallel start playground"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "graphql": "^14.2.1",
+    "graphql-cli": "^3.0.11",
+    "graphql-yoga": "^1.17.4",
+    "nodemon": "^1.18.10",
+    "npm-run-all": "^4.1.5",
+    "prisma": "^1.29.2",
+    "prisma-binding": "^2.3.10"
+  }
+}

@@ -6,6 +6,7 @@ import ListWineTasters from "./ListWineTasters";
 import CreateWineTaster from "./CreateWineTaster";
 import CreateWine from "./CreateWine";
 import CreateReview from "./CreateReview";
+import UpdateReview from "./UpdateReview";
 
 import UPDATE_TASTING_SESSION from "../../../graphql/mutations/UPDATE_TASTING_SESSION";
 import LOCAL_STATE from "../../../graphql/queries/LOCAL_TASTING_SESSION";
@@ -21,17 +22,15 @@ const CreateTastingSession = props => {
           sessionID,
           sessionWines,
           sessionWineTasters,
-          // sessionReviews,
+          sessionReviews,
         } = data;
-        const sessionWineIDs = sessionWines.map(wine => {
-          return { id: wine.id };
-        });
-        const sessionWineTastersIDs = sessionWineTasters.map(taster => {
-          return { id: taster.id };
-        });
+
+        const sessionWineIDs = sessionWines.map(wine => ({ id: wine.id }));
+        const sessionWineTastersIDs = sessionWineTasters.map(taster => ({ id: taster.id }));
+
         return (
           <div>
-            <h3>Create New Tasting Session</h3>
+            <h3>{props.isNewFlow ? 'Create New' : 'Update'} Tasting Session</h3>
 
             <ol
               style={{
@@ -78,6 +77,24 @@ const CreateTastingSession = props => {
                             }}
                           >
                             {sessionWines.map((wine, i) => {
+                              const review = sessionReviews.find(review =>
+                                review.tastingSession.id === sessionID &&
+                                review.wineTaster.id === taster.id &&
+                                review.wine.id === wine.id)
+
+                              if (review) {
+                                return (
+                                  <div key={`${taster.name}wine${i}`}>
+                                    <UpdateReview
+                                      tastingSession={sessionID}
+                                      wineTaster={taster.id}
+                                      wine={wine.id}
+                                      review={review}
+                                    />
+                                  </div>
+                                )
+                              }
+
                               return (
                                 <div key={`${taster.name}wine${i}`}>
                                   <CreateReview

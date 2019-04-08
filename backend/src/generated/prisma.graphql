@@ -1,0 +1,1821 @@
+# source: https://us1.prisma.sh/juan-jose-vento-sevilla/codingchallenge/dev
+# timestamp: Wed Apr 03 2019 00:08:48 GMT-0500 (Peru Standard Time)
+
+type AggregateReview {
+  count: Int!
+}
+
+type AggregateTastingSession {
+  count: Int!
+}
+
+type AggregateWine {
+  count: Int!
+}
+
+type AggregateWineTaster {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createReview(data: ReviewCreateInput!): Review!
+  createTastingSession(data: TastingSessionCreateInput!): TastingSession!
+  createWine(data: WineCreateInput!): Wine!
+  createWineTaster(data: WineTasterCreateInput!): WineTaster!
+  updateReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
+  updateTastingSession(data: TastingSessionUpdateInput!, where: TastingSessionWhereUniqueInput!): TastingSession
+  updateWine(data: WineUpdateInput!, where: WineWhereUniqueInput!): Wine
+  updateWineTaster(data: WineTasterUpdateInput!, where: WineTasterWhereUniqueInput!): WineTaster
+  deleteReview(where: ReviewWhereUniqueInput!): Review
+  deleteTastingSession(where: TastingSessionWhereUniqueInput!): TastingSession
+  deleteWine(where: WineWhereUniqueInput!): Wine
+  deleteWineTaster(where: WineTasterWhereUniqueInput!): WineTaster
+  upsertReview(where: ReviewWhereUniqueInput!, create: ReviewCreateInput!, update: ReviewUpdateInput!): Review!
+  upsertTastingSession(where: TastingSessionWhereUniqueInput!, create: TastingSessionCreateInput!, update: TastingSessionUpdateInput!): TastingSession!
+  upsertWine(where: WineWhereUniqueInput!, create: WineCreateInput!, update: WineUpdateInput!): Wine!
+  upsertWineTaster(where: WineTasterWhereUniqueInput!, create: WineTasterCreateInput!, update: WineTasterUpdateInput!): WineTaster!
+  updateManyReviews(data: ReviewUpdateManyMutationInput!, where: ReviewWhereInput): BatchPayload!
+  updateManyWines(data: WineUpdateManyMutationInput!, where: WineWhereInput): BatchPayload!
+  updateManyWineTasters(data: WineTasterUpdateManyMutationInput!, where: WineTasterWhereInput): BatchPayload!
+  deleteManyReviews(where: ReviewWhereInput): BatchPayload!
+  deleteManyTastingSessions(where: TastingSessionWhereInput): BatchPayload!
+  deleteManyWines(where: WineWhereInput): BatchPayload!
+  deleteManyWineTasters(where: WineTasterWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review]!
+  tastingSessions(where: TastingSessionWhereInput, orderBy: TastingSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TastingSession]!
+  wines(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Wine]!
+  wineTasters(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WineTaster]!
+  review(where: ReviewWhereUniqueInput!): Review
+  tastingSession(where: TastingSessionWhereUniqueInput!): TastingSession
+  wine(where: WineWhereUniqueInput!): Wine
+  wineTaster(where: WineTasterWhereUniqueInput!): WineTaster
+  reviewsConnection(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReviewConnection!
+  tastingSessionsConnection(where: TastingSessionWhereInput, orderBy: TastingSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TastingSessionConnection!
+  winesConnection(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WineConnection!
+  wineTastersConnection(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WineTasterConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Review implements Node {
+  id: ID!
+  wine: Wine!
+  wineTaster: WineTaster!
+  tastingSession: TastingSession!
+  score: Int
+  tastingNotes: [TastingNotes!]!
+}
+
+"""A connection to a list of items."""
+type ReviewConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ReviewEdge]!
+  aggregate: AggregateReview!
+}
+
+input ReviewCreateInput {
+  id: ID
+  score: Int
+  tastingNotes: ReviewCreatetastingNotesInput
+  wine: WineCreateOneInput!
+  wineTaster: WineTasterCreateOneWithoutReviewsInput!
+  tastingSession: TastingSessionCreateOneWithoutReviewsInput!
+}
+
+input ReviewCreateManyWithoutTastingSessionInput {
+  create: [ReviewCreateWithoutTastingSessionInput!]
+  connect: [ReviewWhereUniqueInput!]
+}
+
+input ReviewCreateManyWithoutWineTasterInput {
+  create: [ReviewCreateWithoutWineTasterInput!]
+  connect: [ReviewWhereUniqueInput!]
+}
+
+input ReviewCreatetastingNotesInput {
+  set: [TastingNotes!]
+}
+
+input ReviewCreateWithoutTastingSessionInput {
+  id: ID
+  score: Int
+  tastingNotes: ReviewCreatetastingNotesInput
+  wine: WineCreateOneInput!
+  wineTaster: WineTasterCreateOneWithoutReviewsInput!
+}
+
+input ReviewCreateWithoutWineTasterInput {
+  id: ID
+  score: Int
+  tastingNotes: ReviewCreatetastingNotesInput
+  wine: WineCreateOneInput!
+  tastingSession: TastingSessionCreateOneWithoutReviewsInput!
+}
+
+"""An edge in a connection."""
+type ReviewEdge {
+  """The item at the end of the edge."""
+  node: Review!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ReviewOrderByInput {
+  id_ASC
+  id_DESC
+  score_ASC
+  score_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ReviewPreviousValues {
+  id: ID!
+  score: Int
+  tastingNotes: [TastingNotes!]!
+}
+
+input ReviewScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReviewScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReviewScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReviewScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  score: Int
+
+  """All values that are not equal to given value."""
+  score_not: Int
+
+  """All values that are contained in given list."""
+  score_in: [Int!]
+
+  """All values that are not contained in given list."""
+  score_not_in: [Int!]
+
+  """All values less than the given value."""
+  score_lt: Int
+
+  """All values less than or equal the given value."""
+  score_lte: Int
+
+  """All values greater than the given value."""
+  score_gt: Int
+
+  """All values greater than or equal the given value."""
+  score_gte: Int
+}
+
+type ReviewSubscriptionPayload {
+  mutation: MutationType!
+  node: Review
+  updatedFields: [String!]
+  previousValues: ReviewPreviousValues
+}
+
+input ReviewSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReviewSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReviewSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReviewSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ReviewWhereInput
+}
+
+input ReviewUpdateInput {
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+  wine: WineUpdateOneRequiredInput
+  wineTaster: WineTasterUpdateOneRequiredWithoutReviewsInput
+  tastingSession: TastingSessionUpdateOneRequiredWithoutReviewsInput
+}
+
+input ReviewUpdateManyDataInput {
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+}
+
+input ReviewUpdateManyMutationInput {
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+}
+
+input ReviewUpdateManyWithoutTastingSessionInput {
+  create: [ReviewCreateWithoutTastingSessionInput!]
+  connect: [ReviewWhereUniqueInput!]
+  set: [ReviewWhereUniqueInput!]
+  disconnect: [ReviewWhereUniqueInput!]
+  delete: [ReviewWhereUniqueInput!]
+  update: [ReviewUpdateWithWhereUniqueWithoutTastingSessionInput!]
+  updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+  deleteMany: [ReviewScalarWhereInput!]
+  upsert: [ReviewUpsertWithWhereUniqueWithoutTastingSessionInput!]
+}
+
+input ReviewUpdateManyWithoutWineTasterInput {
+  create: [ReviewCreateWithoutWineTasterInput!]
+  connect: [ReviewWhereUniqueInput!]
+  set: [ReviewWhereUniqueInput!]
+  disconnect: [ReviewWhereUniqueInput!]
+  delete: [ReviewWhereUniqueInput!]
+  update: [ReviewUpdateWithWhereUniqueWithoutWineTasterInput!]
+  updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+  deleteMany: [ReviewScalarWhereInput!]
+  upsert: [ReviewUpsertWithWhereUniqueWithoutWineTasterInput!]
+}
+
+input ReviewUpdateManyWithWhereNestedInput {
+  where: ReviewScalarWhereInput!
+  data: ReviewUpdateManyDataInput!
+}
+
+input ReviewUpdatetastingNotesInput {
+  set: [TastingNotes!]
+}
+
+input ReviewUpdateWithoutTastingSessionDataInput {
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+  wine: WineUpdateOneRequiredInput
+  wineTaster: WineTasterUpdateOneRequiredWithoutReviewsInput
+}
+
+input ReviewUpdateWithoutWineTasterDataInput {
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+  wine: WineUpdateOneRequiredInput
+  tastingSession: TastingSessionUpdateOneRequiredWithoutReviewsInput
+}
+
+input ReviewUpdateWithWhereUniqueWithoutTastingSessionInput {
+  where: ReviewWhereUniqueInput!
+  data: ReviewUpdateWithoutTastingSessionDataInput!
+}
+
+input ReviewUpdateWithWhereUniqueWithoutWineTasterInput {
+  where: ReviewWhereUniqueInput!
+  data: ReviewUpdateWithoutWineTasterDataInput!
+}
+
+input ReviewUpsertWithWhereUniqueWithoutTastingSessionInput {
+  where: ReviewWhereUniqueInput!
+  update: ReviewUpdateWithoutTastingSessionDataInput!
+  create: ReviewCreateWithoutTastingSessionInput!
+}
+
+input ReviewUpsertWithWhereUniqueWithoutWineTasterInput {
+  where: ReviewWhereUniqueInput!
+  update: ReviewUpdateWithoutWineTasterDataInput!
+  create: ReviewCreateWithoutWineTasterInput!
+}
+
+input ReviewWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ReviewWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ReviewWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ReviewWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  score: Int
+
+  """All values that are not equal to given value."""
+  score_not: Int
+
+  """All values that are contained in given list."""
+  score_in: [Int!]
+
+  """All values that are not contained in given list."""
+  score_not_in: [Int!]
+
+  """All values less than the given value."""
+  score_lt: Int
+
+  """All values less than or equal the given value."""
+  score_lte: Int
+
+  """All values greater than the given value."""
+  score_gt: Int
+
+  """All values greater than or equal the given value."""
+  score_gte: Int
+  wine: WineWhereInput
+  wineTaster: WineTasterWhereInput
+  tastingSession: TastingSessionWhereInput
+}
+
+input ReviewWhereUniqueInput {
+  id: ID
+}
+
+type Subscription {
+  review(where: ReviewSubscriptionWhereInput): ReviewSubscriptionPayload
+  tastingSession(where: TastingSessionSubscriptionWhereInput): TastingSessionSubscriptionPayload
+  wine(where: WineSubscriptionWhereInput): WineSubscriptionPayload
+  wineTaster(where: WineTasterSubscriptionWhereInput): WineTasterSubscriptionPayload
+}
+
+enum TastingNotes {
+  ACIDIC
+  BARNYARD
+  BRIGHT
+  BUTTERY
+  COMPLEX
+  CRISP
+  EARTHY
+  OAKED
+  JUICY
+}
+
+type TastingSession implements Node {
+  id: ID!
+  wines(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Wine!]
+  wineTasters(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WineTaster!]
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+}
+
+"""A connection to a list of items."""
+type TastingSessionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TastingSessionEdge]!
+  aggregate: AggregateTastingSession!
+}
+
+input TastingSessionCreateInput {
+  id: ID
+  wines: WineCreateManyInput
+  wineTasters: WineTasterCreateManyInput
+  reviews: ReviewCreateManyWithoutTastingSessionInput
+}
+
+input TastingSessionCreateOneWithoutReviewsInput {
+  create: TastingSessionCreateWithoutReviewsInput
+  connect: TastingSessionWhereUniqueInput
+}
+
+input TastingSessionCreateWithoutReviewsInput {
+  id: ID
+  wines: WineCreateManyInput
+  wineTasters: WineTasterCreateManyInput
+}
+
+"""An edge in a connection."""
+type TastingSessionEdge {
+  """The item at the end of the edge."""
+  node: TastingSession!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TastingSessionOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TastingSessionPreviousValues {
+  id: ID!
+}
+
+type TastingSessionSubscriptionPayload {
+  mutation: MutationType!
+  node: TastingSession
+  updatedFields: [String!]
+  previousValues: TastingSessionPreviousValues
+}
+
+input TastingSessionSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TastingSessionSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TastingSessionSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TastingSessionSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TastingSessionWhereInput
+}
+
+input TastingSessionUpdateInput {
+  wines: WineUpdateManyInput
+  wineTasters: WineTasterUpdateManyInput
+  reviews: ReviewUpdateManyWithoutTastingSessionInput
+}
+
+input TastingSessionUpdateOneRequiredWithoutReviewsInput {
+  create: TastingSessionCreateWithoutReviewsInput
+  connect: TastingSessionWhereUniqueInput
+  update: TastingSessionUpdateWithoutReviewsDataInput
+  upsert: TastingSessionUpsertWithoutReviewsInput
+}
+
+input TastingSessionUpdateWithoutReviewsDataInput {
+  wines: WineUpdateManyInput
+  wineTasters: WineTasterUpdateManyInput
+}
+
+input TastingSessionUpsertWithoutReviewsInput {
+  update: TastingSessionUpdateWithoutReviewsDataInput!
+  create: TastingSessionCreateWithoutReviewsInput!
+}
+
+input TastingSessionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TastingSessionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TastingSessionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TastingSessionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  wines_every: WineWhereInput
+  wines_some: WineWhereInput
+  wines_none: WineWhereInput
+  wineTasters_every: WineTasterWhereInput
+  wineTasters_some: WineTasterWhereInput
+  wineTasters_none: WineTasterWhereInput
+  reviews_every: ReviewWhereInput
+  reviews_some: ReviewWhereInput
+  reviews_none: ReviewWhereInput
+}
+
+input TastingSessionWhereUniqueInput {
+  id: ID
+}
+
+type Wine implements Node {
+  id: ID!
+  name: String!
+  grapes: [WineGrapes!]!
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+"""A connection to a list of items."""
+type WineConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [WineEdge]!
+  aggregate: AggregateWine!
+}
+
+input WineCreategrapesInput {
+  set: [WineGrapes!]
+}
+
+input WineCreateInput {
+  id: ID
+  name: String!
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+  grapes: WineCreategrapesInput
+}
+
+input WineCreateManyInput {
+  create: [WineCreateInput!]
+  connect: [WineWhereUniqueInput!]
+}
+
+input WineCreateOneInput {
+  create: WineCreateInput
+  connect: WineWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type WineEdge {
+  """The item at the end of the edge."""
+  node: Wine!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum WineGrapes {
+  RIESLING
+  GEWURZTRAMINER
+  CHARDONNAY
+  SAUVIGNON_BLANC
+  SYRAH
+  MERLOT
+  CABERNET_SAUVIGNON
+  PINOT_NOIR
+}
+
+enum WineOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  winery_ASC
+  winery_DESC
+  year_ASC
+  year_DESC
+  alcohol_ASC
+  alcohol_DESC
+  price_ASC
+  price_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type WinePreviousValues {
+  id: ID!
+  name: String!
+  grapes: [WineGrapes!]!
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+input WineScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WineScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WineScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WineScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  winery: String
+
+  """All values that are not equal to given value."""
+  winery_not: String
+
+  """All values that are contained in given list."""
+  winery_in: [String!]
+
+  """All values that are not contained in given list."""
+  winery_not_in: [String!]
+
+  """All values less than the given value."""
+  winery_lt: String
+
+  """All values less than or equal the given value."""
+  winery_lte: String
+
+  """All values greater than the given value."""
+  winery_gt: String
+
+  """All values greater than or equal the given value."""
+  winery_gte: String
+
+  """All values containing the given string."""
+  winery_contains: String
+
+  """All values not containing the given string."""
+  winery_not_contains: String
+
+  """All values starting with the given string."""
+  winery_starts_with: String
+
+  """All values not starting with the given string."""
+  winery_not_starts_with: String
+
+  """All values ending with the given string."""
+  winery_ends_with: String
+
+  """All values not ending with the given string."""
+  winery_not_ends_with: String
+  year: Int
+
+  """All values that are not equal to given value."""
+  year_not: Int
+
+  """All values that are contained in given list."""
+  year_in: [Int!]
+
+  """All values that are not contained in given list."""
+  year_not_in: [Int!]
+
+  """All values less than the given value."""
+  year_lt: Int
+
+  """All values less than or equal the given value."""
+  year_lte: Int
+
+  """All values greater than the given value."""
+  year_gt: Int
+
+  """All values greater than or equal the given value."""
+  year_gte: Int
+  alcohol: Float
+
+  """All values that are not equal to given value."""
+  alcohol_not: Float
+
+  """All values that are contained in given list."""
+  alcohol_in: [Float!]
+
+  """All values that are not contained in given list."""
+  alcohol_not_in: [Float!]
+
+  """All values less than the given value."""
+  alcohol_lt: Float
+
+  """All values less than or equal the given value."""
+  alcohol_lte: Float
+
+  """All values greater than the given value."""
+  alcohol_gt: Float
+
+  """All values greater than or equal the given value."""
+  alcohol_gte: Float
+  price: Float
+
+  """All values that are not equal to given value."""
+  price_not: Float
+
+  """All values that are contained in given list."""
+  price_in: [Float!]
+
+  """All values that are not contained in given list."""
+  price_not_in: [Float!]
+
+  """All values less than the given value."""
+  price_lt: Float
+
+  """All values less than or equal the given value."""
+  price_lte: Float
+
+  """All values greater than the given value."""
+  price_gt: Float
+
+  """All values greater than or equal the given value."""
+  price_gte: Float
+}
+
+type WineSubscriptionPayload {
+  mutation: MutationType!
+  node: Wine
+  updatedFields: [String!]
+  previousValues: WinePreviousValues
+}
+
+input WineSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WineSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WineSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WineSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: WineWhereInput
+}
+
+type WineTaster implements Node {
+  id: ID!
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: Wine
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+}
+
+"""A connection to a list of items."""
+type WineTasterConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [WineTasterEdge]!
+  aggregate: AggregateWineTaster!
+}
+
+input WineTasterCreateInput {
+  id: ID
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineCreateOneInput
+  reviews: ReviewCreateManyWithoutWineTasterInput
+}
+
+input WineTasterCreateManyInput {
+  create: [WineTasterCreateInput!]
+  connect: [WineTasterWhereUniqueInput!]
+}
+
+input WineTasterCreateOneWithoutReviewsInput {
+  create: WineTasterCreateWithoutReviewsInput
+  connect: WineTasterWhereUniqueInput
+}
+
+input WineTasterCreateWithoutReviewsInput {
+  id: ID
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineCreateOneInput
+}
+
+"""An edge in a connection."""
+type WineTasterEdge {
+  """The item at the end of the edge."""
+  node: WineTaster!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum WineTasterOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  nationality_ASC
+  nationality_DESC
+  gender_ASC
+  gender_DESC
+  age_ASC
+  age_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type WineTasterPreviousValues {
+  id: ID!
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+}
+
+input WineTasterScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WineTasterScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WineTasterScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WineTasterScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  nationality: String
+
+  """All values that are not equal to given value."""
+  nationality_not: String
+
+  """All values that are contained in given list."""
+  nationality_in: [String!]
+
+  """All values that are not contained in given list."""
+  nationality_not_in: [String!]
+
+  """All values less than the given value."""
+  nationality_lt: String
+
+  """All values less than or equal the given value."""
+  nationality_lte: String
+
+  """All values greater than the given value."""
+  nationality_gt: String
+
+  """All values greater than or equal the given value."""
+  nationality_gte: String
+
+  """All values containing the given string."""
+  nationality_contains: String
+
+  """All values not containing the given string."""
+  nationality_not_contains: String
+
+  """All values starting with the given string."""
+  nationality_starts_with: String
+
+  """All values not starting with the given string."""
+  nationality_not_starts_with: String
+
+  """All values ending with the given string."""
+  nationality_ends_with: String
+
+  """All values not ending with the given string."""
+  nationality_not_ends_with: String
+  gender: Gender
+
+  """All values that are not equal to given value."""
+  gender_not: Gender
+
+  """All values that are contained in given list."""
+  gender_in: [Gender!]
+
+  """All values that are not contained in given list."""
+  gender_not_in: [Gender!]
+  age: Int
+
+  """All values that are not equal to given value."""
+  age_not: Int
+
+  """All values that are contained in given list."""
+  age_in: [Int!]
+
+  """All values that are not contained in given list."""
+  age_not_in: [Int!]
+
+  """All values less than the given value."""
+  age_lt: Int
+
+  """All values less than or equal the given value."""
+  age_lte: Int
+
+  """All values greater than the given value."""
+  age_gt: Int
+
+  """All values greater than or equal the given value."""
+  age_gte: Int
+}
+
+type WineTasterSubscriptionPayload {
+  mutation: MutationType!
+  node: WineTaster
+  updatedFields: [String!]
+  previousValues: WineTasterPreviousValues
+}
+
+input WineTasterSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WineTasterSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WineTasterSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WineTasterSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: WineTasterWhereInput
+}
+
+input WineTasterUpdateDataInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineUpdateOneInput
+  reviews: ReviewUpdateManyWithoutWineTasterInput
+}
+
+input WineTasterUpdateInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineUpdateOneInput
+  reviews: ReviewUpdateManyWithoutWineTasterInput
+}
+
+input WineTasterUpdateManyDataInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+}
+
+input WineTasterUpdateManyInput {
+  create: [WineTasterCreateInput!]
+  connect: [WineTasterWhereUniqueInput!]
+  set: [WineTasterWhereUniqueInput!]
+  disconnect: [WineTasterWhereUniqueInput!]
+  delete: [WineTasterWhereUniqueInput!]
+  update: [WineTasterUpdateWithWhereUniqueNestedInput!]
+  updateMany: [WineTasterUpdateManyWithWhereNestedInput!]
+  deleteMany: [WineTasterScalarWhereInput!]
+  upsert: [WineTasterUpsertWithWhereUniqueNestedInput!]
+}
+
+input WineTasterUpdateManyMutationInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+}
+
+input WineTasterUpdateManyWithWhereNestedInput {
+  where: WineTasterScalarWhereInput!
+  data: WineTasterUpdateManyDataInput!
+}
+
+input WineTasterUpdateOneRequiredWithoutReviewsInput {
+  create: WineTasterCreateWithoutReviewsInput
+  connect: WineTasterWhereUniqueInput
+  update: WineTasterUpdateWithoutReviewsDataInput
+  upsert: WineTasterUpsertWithoutReviewsInput
+}
+
+input WineTasterUpdateWithoutReviewsDataInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineUpdateOneInput
+}
+
+input WineTasterUpdateWithWhereUniqueNestedInput {
+  where: WineTasterWhereUniqueInput!
+  data: WineTasterUpdateDataInput!
+}
+
+input WineTasterUpsertWithoutReviewsInput {
+  update: WineTasterUpdateWithoutReviewsDataInput!
+  create: WineTasterCreateWithoutReviewsInput!
+}
+
+input WineTasterUpsertWithWhereUniqueNestedInput {
+  where: WineTasterWhereUniqueInput!
+  update: WineTasterUpdateDataInput!
+  create: WineTasterCreateInput!
+}
+
+input WineTasterWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WineTasterWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WineTasterWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WineTasterWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  nationality: String
+
+  """All values that are not equal to given value."""
+  nationality_not: String
+
+  """All values that are contained in given list."""
+  nationality_in: [String!]
+
+  """All values that are not contained in given list."""
+  nationality_not_in: [String!]
+
+  """All values less than the given value."""
+  nationality_lt: String
+
+  """All values less than or equal the given value."""
+  nationality_lte: String
+
+  """All values greater than the given value."""
+  nationality_gt: String
+
+  """All values greater than or equal the given value."""
+  nationality_gte: String
+
+  """All values containing the given string."""
+  nationality_contains: String
+
+  """All values not containing the given string."""
+  nationality_not_contains: String
+
+  """All values starting with the given string."""
+  nationality_starts_with: String
+
+  """All values not starting with the given string."""
+  nationality_not_starts_with: String
+
+  """All values ending with the given string."""
+  nationality_ends_with: String
+
+  """All values not ending with the given string."""
+  nationality_not_ends_with: String
+  gender: Gender
+
+  """All values that are not equal to given value."""
+  gender_not: Gender
+
+  """All values that are contained in given list."""
+  gender_in: [Gender!]
+
+  """All values that are not contained in given list."""
+  gender_not_in: [Gender!]
+  age: Int
+
+  """All values that are not equal to given value."""
+  age_not: Int
+
+  """All values that are contained in given list."""
+  age_in: [Int!]
+
+  """All values that are not contained in given list."""
+  age_not_in: [Int!]
+
+  """All values less than the given value."""
+  age_lt: Int
+
+  """All values less than or equal the given value."""
+  age_lte: Int
+
+  """All values greater than the given value."""
+  age_gt: Int
+
+  """All values greater than or equal the given value."""
+  age_gte: Int
+  favouriteWine: WineWhereInput
+  reviews_every: ReviewWhereInput
+  reviews_some: ReviewWhereInput
+  reviews_none: ReviewWhereInput
+}
+
+input WineTasterWhereUniqueInput {
+  id: ID
+  name: String
+}
+
+input WineUpdateDataInput {
+  name: String
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+  grapes: WineUpdategrapesInput
+}
+
+input WineUpdategrapesInput {
+  set: [WineGrapes!]
+}
+
+input WineUpdateInput {
+  name: String
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+  grapes: WineUpdategrapesInput
+}
+
+input WineUpdateManyDataInput {
+  name: String
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+  grapes: WineUpdategrapesInput
+}
+
+input WineUpdateManyInput {
+  create: [WineCreateInput!]
+  connect: [WineWhereUniqueInput!]
+  set: [WineWhereUniqueInput!]
+  disconnect: [WineWhereUniqueInput!]
+  delete: [WineWhereUniqueInput!]
+  update: [WineUpdateWithWhereUniqueNestedInput!]
+  updateMany: [WineUpdateManyWithWhereNestedInput!]
+  deleteMany: [WineScalarWhereInput!]
+  upsert: [WineUpsertWithWhereUniqueNestedInput!]
+}
+
+input WineUpdateManyMutationInput {
+  name: String
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+  grapes: WineUpdategrapesInput
+}
+
+input WineUpdateManyWithWhereNestedInput {
+  where: WineScalarWhereInput!
+  data: WineUpdateManyDataInput!
+}
+
+input WineUpdateOneInput {
+  create: WineCreateInput
+  connect: WineWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: WineUpdateDataInput
+  upsert: WineUpsertNestedInput
+}
+
+input WineUpdateOneRequiredInput {
+  create: WineCreateInput
+  connect: WineWhereUniqueInput
+  update: WineUpdateDataInput
+  upsert: WineUpsertNestedInput
+}
+
+input WineUpdateWithWhereUniqueNestedInput {
+  where: WineWhereUniqueInput!
+  data: WineUpdateDataInput!
+}
+
+input WineUpsertNestedInput {
+  update: WineUpdateDataInput!
+  create: WineCreateInput!
+}
+
+input WineUpsertWithWhereUniqueNestedInput {
+  where: WineWhereUniqueInput!
+  update: WineUpdateDataInput!
+  create: WineCreateInput!
+}
+
+input WineWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WineWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WineWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WineWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  winery: String
+
+  """All values that are not equal to given value."""
+  winery_not: String
+
+  """All values that are contained in given list."""
+  winery_in: [String!]
+
+  """All values that are not contained in given list."""
+  winery_not_in: [String!]
+
+  """All values less than the given value."""
+  winery_lt: String
+
+  """All values less than or equal the given value."""
+  winery_lte: String
+
+  """All values greater than the given value."""
+  winery_gt: String
+
+  """All values greater than or equal the given value."""
+  winery_gte: String
+
+  """All values containing the given string."""
+  winery_contains: String
+
+  """All values not containing the given string."""
+  winery_not_contains: String
+
+  """All values starting with the given string."""
+  winery_starts_with: String
+
+  """All values not starting with the given string."""
+  winery_not_starts_with: String
+
+  """All values ending with the given string."""
+  winery_ends_with: String
+
+  """All values not ending with the given string."""
+  winery_not_ends_with: String
+  year: Int
+
+  """All values that are not equal to given value."""
+  year_not: Int
+
+  """All values that are contained in given list."""
+  year_in: [Int!]
+
+  """All values that are not contained in given list."""
+  year_not_in: [Int!]
+
+  """All values less than the given value."""
+  year_lt: Int
+
+  """All values less than or equal the given value."""
+  year_lte: Int
+
+  """All values greater than the given value."""
+  year_gt: Int
+
+  """All values greater than or equal the given value."""
+  year_gte: Int
+  alcohol: Float
+
+  """All values that are not equal to given value."""
+  alcohol_not: Float
+
+  """All values that are contained in given list."""
+  alcohol_in: [Float!]
+
+  """All values that are not contained in given list."""
+  alcohol_not_in: [Float!]
+
+  """All values less than the given value."""
+  alcohol_lt: Float
+
+  """All values less than or equal the given value."""
+  alcohol_lte: Float
+
+  """All values greater than the given value."""
+  alcohol_gt: Float
+
+  """All values greater than or equal the given value."""
+  alcohol_gte: Float
+  price: Float
+
+  """All values that are not equal to given value."""
+  price_not: Float
+
+  """All values that are contained in given list."""
+  price_in: [Float!]
+
+  """All values that are not contained in given list."""
+  price_not_in: [Float!]
+
+  """All values less than the given value."""
+  price_lt: Float
+
+  """All values less than or equal the given value."""
+  price_lte: Float
+
+  """All values greater than the given value."""
+  price_gt: Float
+
+  """All values greater than or equal the given value."""
+  price_gte: Float
+}
+
+input WineWhereUniqueInput {
+  id: ID
+}

@@ -1,0 +1,19 @@
+# import * from './generated/prisma.graphql'
+
+type Mutation {
+  createWine(data: WineCreateInput!): Wine!
+  createWineTaster(data: WineTasterCreateInput!): WineTaster!
+  createReview(data: ReviewCreateInput!): Review!
+  updateReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
+  createTastingSession(data: TastingSessionCreateInput!): TastingSession!
+  updateTastingSession(data: TastingSessionUpdateInput!, where: TastingSessionWhereUniqueInput!): TastingSession
+  deleteTastingSession(where: TastingSessionWhereUniqueInput!): TastingSession
+}
+
+type Query {
+  wines: [Wine]!
+  wineTasters: [WineTaster]!
+  reviews: [Review]!
+  tastingSessions: [TastingSession]!
+  tastingSession(where: TastingSessionWhereUniqueInput!): TastingSession
+}
