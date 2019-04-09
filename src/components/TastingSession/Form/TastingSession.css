@@ -1,0 +1,22 @@
+.tasting-session {
+  margin-bottom: 16px;
+}
+.tasting-session p {
+  margin-bottom: 0;
+}
+
+.tasting-session .actions {
+  margin: 0.5em 0 0;  
+}
+.tasting-session .actions button {
+  margin: 0 10px;
+}
+
+.modal-content {
+  margin-top: 32px;
+  padding: 0;
+}
+
+.modal-content p {
+  margin: 0;
+}

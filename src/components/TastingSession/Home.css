@@ -1,0 +1,29 @@
+.new-tasting-session {
+  margin: 32px 0;
+  padding: 0 16px;
+}
+
+ol, ul {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-right: 32px;
+  margin-left: 32px;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.separator-top-l {
+  margin-top: 32px;
+}
+.separator-top-m {
+  margin-top: 16px;
+}
+.separator-bottom-l {
+  margin-bottom: 32px;
+}
+.separator-bottom-m {
+  margin-bottom: 16px;
+}

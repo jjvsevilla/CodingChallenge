@@ -1,7 +1,6 @@
 import React from "react";
 import { Query, Mutation, ApolloConsumer } from "react-apollo";
 import { Spin, Alert } from 'antd';
-
 import TASTING_SESSIONS from "../../../graphql/queries/TASTING_SESSIONS";
 import DELETE_TASTING_SESSION from "../../../graphql/mutations/DELETE_TASTING_SESSION";
 import TastingSession from './TastingSession';
@@ -18,7 +17,7 @@ const ListTastingSessions = props => {
               <Spin tip="Loading...">
                 <Alert
                   message="Fetching Tasting Sessions"
-                  description="Fetching Existing Tasting Session from the server."
+                  description="Fetching Tasting Session from the server."
                   type="info"
                 />
               </Spin>
@@ -31,15 +30,16 @@ const ListTastingSessions = props => {
               <Alert
                 message="Something went wrong"
                 description={`Error! ${error.message}`}
-                type="warning"
+                type="error"
               />
             </div>
           )
         }
+
         const { tastingSessions } = data;
         return (
           <React.Fragment>
-            <h5>Existing Tasting Sessions</h5>
+            <h5>Existing Tasting Sessions: {tastingSessions.length}</h5>
             <ul>
               {tastingSessions.map((tastingSession, i) => (
                 <Mutation

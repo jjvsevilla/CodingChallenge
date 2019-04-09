@@ -30,7 +30,7 @@ class UpdateReview extends Component {
     const { wineTaster, wine, tastingSession, review } = this.props;
 
     return (
-      <div>
+      <div className="review">
         <div>
           <h5>{this.props.wine}</h5>
           <input
@@ -70,7 +70,7 @@ class UpdateReview extends Component {
             tastingNotes,
           }}
         >
-          {postMutation => <Button onClick={postMutation}>Submit</Button>}
+          {postMutation => <Button onClick={postMutation}>Update Review</Button>}
         </Mutation>
       </div>
     );

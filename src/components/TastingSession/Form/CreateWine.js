@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import { Button } from 'antd';
-
 import CREATE_WINE from "../../../graphql/mutations/CREATE_WINE";
 import WINES from "../../../graphql/queries/WINES";
+import "./CreateWine.css"
 
 class CreateWine extends Component {
   state = {
@@ -36,11 +36,11 @@ class CreateWine extends Component {
   render() {
     const { isOpen, name, grapes, winery, year, alcohol, price } = this.state;
     return (
-      <div>
+      <div className="create-wine-container">
         <Button onClick={this.toggle}>Create New Wine</Button>
 
         {isOpen ? (
-          <div
+          <div className="create-wine-form"
             style={{
               border: "1px solid black",
               padding: "20px",

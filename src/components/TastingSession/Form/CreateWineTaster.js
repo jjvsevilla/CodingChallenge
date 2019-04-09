@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import { Button } from 'antd';
 import ListWines from "./ListWines";
-
 import WINE_TASTERS from "../../../graphql/queries/WINE_TASTERS";
 import CREATE_WINE_TASTER from "../../../graphql/mutations/CREATE_WINE_TASTER";
+import "./CreateWineTaster.css"
 
 class CreateWineTaster extends Component {
   state = {
@@ -36,11 +36,11 @@ class CreateWineTaster extends Component {
       favouriteWine,
     } = this.state;
     return (
-      <div>
+      <div className="create-wine-taster-container">
         <Button onClick={this.toggle}>Create New Wine Taster</Button>
 
         {isOpen ? (
-          <div
+          <div className="create-wine-taster-form"
             style={{
               border: "1px solid black",
               padding: "20px",

@@ -1,0 +1,26 @@
+.create-tasting-session {
+  margin: 0;
+  padding: 0;
+}
+.create-tasting-session h3{
+  margin: 32px 0;
+  padding: 0;
+}
+.wines-container {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-right: 32px;
+  margin-left: 32px;
+  padding: 0;
+}
+.wines-container,
+.reviews-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.wines-container .wine,
+.reviews-container .review {
+  flex: 1 0 0;
+}

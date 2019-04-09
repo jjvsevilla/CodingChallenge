@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import { Button } from 'antd';
 import CREATE_REVIEW from "../../../graphql/mutations/CREATE_REVIEW";
+import { Select, InputNumber } from 'antd';
+import "./CreateReview.css";
+
+const Option = Select.Option;
 
 class CreateReview extends Component {
   state = {
@@ -10,50 +14,53 @@ class CreateReview extends Component {
   };
 
   inputHandler = e => {
-    let { name, value } = e.target;
-    if (name === "tastingNotes") {
-      this.setState({
-        tastingNotes: [...e.target.selectedOptions].map(o => o.value),
-      });
-    } else {
-      if (name === "score") value = Number(value);
-      this.setState({ [name]: value });
-    }
+    // let { name, value } = e.target;
+    // if (name === "tastingNotes") {
+    //   this.setState({
+    //     tastingNotes: [...e.target.selectedOptions].map(o => o.value),
+    //   });
+    // } else {
+    //   if (name === "score") value = Number(value);
+    //   this.setState({ [name]: value });
+    // }
+    this.setState({ score: e });
   };
+
+  selectHandler = e => {
+    // console.log('selected', e, e.length);
+    this.setState({ tastingNotes: [...e] });
+  }
 
   render() {
     const { score, tastingNotes } = this.state;
     const { wineTaster, wine, tastingSession } = this.props;
     return (
-      <div>
-        <div>
-          <h5>{this.props.wine}</h5>
-          <input
-            name="score"
-            value={score}
-            onChange={this.inputHandler}
-            type="number"
-            placeholder="Score: 0 - 100"
-          />
-          <select
-            name="tastingNotes"
-            value={tastingNotes}
-            onChange={this.inputHandler}
-            type="text"
+      <div className="review">
+        <h5>{this.props.wine}</h5>
+        <InputNumber
+          className="number"
+          value={score}
+          min={0}
+          max={100}
+          onChange={this.inputHandler}
+          placeholder="Score: 0 - 100"
+        />
+        <Select
+            className="select"
+            onChange={this.selectHandler}
             placeholder="Tasting Notes"
-            multiple={true}
+            mode="multiple"
           >
-            <option value="ACIDIC">ACIDIC</option>
-            <option value="BARNYARD">BARNYARD</option>
-            <option value="BRIGHT">BRIGHT</option>
-            <option value="BUTTERY">BUTTERY</option>
-            <option value="COMPLEX">COMPLEX</option>
-            <option value="CRISP">CRISP</option>
-            <option value="EARTHY">EARTHY</option>
-            <option value="OAKED">OAKED</option>
-            <option value="JUICY">JUICY</option>
-          </select>
-        </div>
+          <Option value="ACIDIC">ACIDIC</Option>
+          <Option value="BARNYARD">BARNYARD</Option>
+          <Option value="BRIGHT">BRIGHT</Option>
+          <Option value="BUTTERY">BUTTERY</Option>
+          <Option value="COMPLEX">COMPLEX</Option>
+          <Option value="CRISP">CRISP</Option>
+          <Option value="EARTHY">EARTHY</Option>
+          <Option value="OAKED">OAKED</Option>
+          <Option value="JUICY">JUICY</Option>
+        </Select>
         <Mutation
           mutation={CREATE_REVIEW}
           variables={{
@@ -64,7 +71,7 @@ class CreateReview extends Component {
             tastingNotes,
           }}
         >
-          {postMutation => <Button onClick={postMutation}>Submit</Button>}
+          {postMutation => <Button className="button" onClick={postMutation}>Save Review</Button>}
         </Mutation>
       </div>
     );

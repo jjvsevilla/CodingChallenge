@@ -1,0 +1,11 @@
+.review {
+  flex: 1 0 0;
+}
+
+.number, .select {
+  width: 100%;
+}
+
+.button {
+  margin-top: 0.5em;
+}

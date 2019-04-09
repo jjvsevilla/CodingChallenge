@@ -1,40 +1,56 @@
 import React from "react";
 import { graphql, compose, Query } from "react-apollo";
-
+import { Select, Spin, Alert } from 'antd';
 import WINE_TASTERS from "../../../graphql/queries/WINE_TASTERS";
 import ADD_WINE_TASTER from "../../../graphql/mutations/ADD_WINE_TASTER";
+import "./ListWineTasters.css"
+
+const Option = Select.Option;
 
 const ListWineTasters = props => {
   return (
     <Query query={WINE_TASTERS}>
       {({ loading, error, data }) => {
-        if (loading) return "LOADING";
-        if (error) return `Error! ${error.message}`;
-        const { wineTasters } = data;
+        if (loading) {
+          return (
+            <div>
+              <Spin tip="Loading...">
+                <Alert
+                  message="Fetching Wine Tasters"
+                  description="Fetching Wine Tasters from the server."
+                  type="info"
+                />
+              </Spin>
+            </div>
+          );
+        }
+        if (error) {
+          return (
+            <div>
+              <Alert
+                message="Something went wrong"
+                description={`Error! ${error.message}`}
+                type="error"
+              />
+            </div>
+          )
+        }
 
+        const { wineTasters } = data;
         return (
-          <select
+          <Select
+            className="list-wines-tasters"
             onChange={e => {
-              props.addWineTaster({
-                variables: {
-                  ...wineTasters[e.target.options.selectedIndex - 1],
-                },
-              });
-              e.target.value = "default";
+              const selectedWineTaster = wineTasters.find(wineTaster => wineTaster.id === e);
+              props.addWineTaster({variables: {...selectedWineTaster}});
             }}
             defaultValue="default"
           >
-            <option value="default" disabled hidden>
+            <Option value="default" disabled hidden>
               {props.placeholder}
-            </option>
-            {wineTasters.map((taster, i) => {
-              return (
-                <option key={`taster${i}`} value={taster.name}>
-                  {taster.name}
-                </option>
-              );
-            })}
-          </select>
+            </Option>
+            {wineTasters.map((taster, i) => (<Option key={`taster${i}`} value={taster.id}>{taster.name}</Option>))}
+          </Select>
         );
       }}
     </Query>
