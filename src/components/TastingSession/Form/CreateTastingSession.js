@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql, compose, Query, Mutation } from "react-apollo";
-
+import { Button } from 'antd';
 import ListWines from "./ListWines";
 import ListWineTasters from "./ListWineTasters";
 import CreateWineTaster from "./CreateWineTaster";
@@ -127,16 +127,14 @@ const CreateTastingSession = props => {
               onCompleted={() => props.toggle()}
             >
               {postMutation => (
-                <button
+                <Button
                   onClick={postMutation}
                   style={{
-                    padding: "10px",
-                    margin: "30px",
                     width: "800px",
                   }}
                 >
                   Submit Form
-                </button>
+                </Button>
               )}
             </Mutation>
           </div>

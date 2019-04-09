@@ -1,8 +1,12 @@
 import React from "react";
 import { graphql, compose, Query } from "react-apollo";
 
+import { Select } from 'antd';
+
 import ADD_WINE from "../../../graphql/mutations/ADD_WINE";
 import WINES from "../../../graphql/queries/WINES";
+
+const Option = Select.Option;
 
 const ListWines = props => {
   return (
@@ -13,28 +17,36 @@ const ListWines = props => {
         const { wines } = data;
 
         return (
-          <select
+          <Select
             onChange={e => {
-              props.childCB
-                ? props.childCB(wines[e.target.options.selectedIndex - 1].id)
-                : props.addWine({
-                    variables: { ...wines[e.target.options.selectedIndex - 1] },
-                  });
-              if (!props.childCB) e.target.value = "default";
+              console.log('onChange', e)
+              const selectedWine = wines.find(wine => wine.id === e)
+              console.log('onChange selectedWine', selectedWine)
+
+              props.addWine({
+                variables: { ...selectedWine },
+              });
+              // e.target.value = "default";
+              // props.childCB
+              //   ? props.childCB(wines[e.target.options.selectedIndex - 1].id)
+              //   : props.addWine({
+              //       variables: { ...wines[e.target.options.selectedIndex - 1] },
+              //     });
+              // if (!props.childCB) e.target.value = "default";
             }}
             defaultValue="default"
           >
-            <option value="default" disabled hidden>
+            <Option value="default" disabled hidden>
               {props.placeholder}
-            </option>
+            </Option>
             {wines.map((wine, i) => {
               return (
-                <option key={`wine${i}`} value={wine.id}>
+                <Option key={`wine${i}`} value={wine.id}>
                   {wine.name}
-                </option>
+                </Option>
               );
             })}
-          </select>
+          </Select>
         );
       }}
     </Query>

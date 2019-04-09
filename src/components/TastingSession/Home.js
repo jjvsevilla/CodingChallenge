@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Mutation, ApolloConsumer } from "react-apollo";
+import { Mutation } from "react-apollo";
+import { Button } from 'antd';
 
 import CreateTastingSession from "./Form/CreateTastingSession";
 import ListTastingSessions from "./Form/ListTastingSessions";
 
 import CREATE_TASTING_SESSION from "../../graphql/mutations/CREATE_TASTING_SESSION";
-import TASTING_SESSION from "../../graphql/queries/TASTING_SESSION";
 import LOCAL_TASTING_SESSION from "../../graphql/queries/LOCAL_TASTING_SESSION";
 
 class Home extends Component {
@@ -42,7 +42,7 @@ class Home extends Component {
             });
           }}
         >
-          {postMutation => isNewFlow ? (<button onClick={isOpen ? null : postMutation}>Create New Tasting Session</button>) : null}
+          {postMutation => isNewFlow ? (<Button onClick={isOpen ? null : postMutation}>Create New Tasting Session</Button>) : null}
         </Mutation>
 
         {isOpen && <CreateTastingSession toggle={this.toggle} isNewFlow={isNewFlow} />}

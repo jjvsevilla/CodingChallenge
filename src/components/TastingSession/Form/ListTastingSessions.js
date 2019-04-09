@@ -1,5 +1,6 @@
 import React from "react";
 import { Query, Mutation, ApolloConsumer } from "react-apollo";
+import { Spin, Alert } from 'antd';
 
 import TASTING_SESSIONS from "../../../graphql/queries/TASTING_SESSIONS";
 import DELETE_TASTING_SESSION from "../../../graphql/mutations/DELETE_TASTING_SESSION";
@@ -11,10 +12,31 @@ const ListTastingSessions = props => {
   return (
     <Query query={TASTING_SESSIONS}>
       {({ loading, error, data }) => {
-        if (loading) return "LOADING";
-        if (error) return `Error! ${error.message}`;
+        if (loading) {
+          return (
+            <div>
+              <Spin tip="Loading...">
+                <Alert
+                  message="Fetching Tasting Sessions"
+                  description="Fetching Existing Tasting Session from the server."
+                  type="info"
+                />
+              </Spin>
+            </div>
+          );
+        }
+        if (error) {
+          return (
+            <div>
+              <Alert
+                message="Something went wrong"
+                description={`Error! ${error.message}`}
+                type="warning"
+              />
+            </div>
+          )
+        }
         const { tastingSessions } = data;
-
         return (
           <React.Fragment>
             <h5>Existing Tasting Sessions</h5>
@@ -24,6 +46,7 @@ const ListTastingSessions = props => {
                   mutation={DELETE_TASTING_SESSION}
                   variables={{ sessionID: tastingSession.id }}
                   refetchQueries={[{query: TASTING_SESSIONS}]}
+                  awaitRefetchQueries={true}
                   key={`tastingSessionMutation${i}`}
                 >
                 {postMutation => (

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-
+import { Button } from 'antd';
 import CREATE_REVIEW from "../../../graphql/mutations/CREATE_REVIEW";
 
 class CreateReview extends Component {
@@ -64,7 +64,7 @@ class CreateReview extends Component {
             tastingNotes,
           }}
         >
-          {postMutation => <button onClick={postMutation}>Submit</button>}
+          {postMutation => <Button onClick={postMutation}>Submit</Button>}
         </Mutation>
       </div>
     );

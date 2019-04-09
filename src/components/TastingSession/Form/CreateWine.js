@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
+import { Button } from 'antd';
 
 import CREATE_WINE from "../../../graphql/mutations/CREATE_WINE";
 import WINES from "../../../graphql/queries/WINES";
@@ -36,7 +37,7 @@ class CreateWine extends Component {
     const { isOpen, name, grapes, winery, year, alcohol, price } = this.state;
     return (
       <div>
-        <button onClick={this.toggle}>Create New Wine</button>
+        <Button onClick={this.toggle}>Create New Wine</Button>
 
         {isOpen ? (
           <div
@@ -127,7 +128,7 @@ class CreateWine extends Component {
                 })
               }
             >
-              {postMutation => <button onClick={postMutation}>Submit</button>}
+              {postMutation => <Button onClick={postMutation}>Submit</Button>}
             </Mutation>
           </div>
         ) : null}
