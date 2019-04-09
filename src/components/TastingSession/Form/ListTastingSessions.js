@@ -1,29 +1,19 @@
 import React from "react";
 import { Query, Mutation, ApolloConsumer } from "react-apollo";
-import { Spin, Alert } from 'antd';
 import TASTING_SESSIONS from "../../../graphql/queries/TASTING_SESSIONS";
 import DELETE_TASTING_SESSION from "../../../graphql/mutations/DELETE_TASTING_SESSION";
 import TastingSession from './TastingSession';
 import TASTING_SESSION from "../../../graphql/queries/TASTING_SESSION";
 import LOCAL_TASTING_SESSION from "../../../graphql/queries/LOCAL_TASTING_SESSION";
 import ErrorMessage from "../../ErrorMessage"
+import LoadingMessage from '../../LoadingMessage';
 
 const ListTastingSessions = props => {
   return (
     <Query query={TASTING_SESSIONS}>
       {({ loading, error, data }) => {
         if (loading) {
-          return (
-            <div>
-              <Spin tip="Loading...">
-                <Alert
-                  message="Fetching Tasting Sessions"
-                  description="Fetching Tasting Session from the server."
-                  type="info"
-                />
-              </Spin>
-            </div>
-          );
+          return (<LoadingMessage title="Fetching Tasting Sessions" message="Fetching Tasting Session from the server." />);
         }
         if (error) {
           return (

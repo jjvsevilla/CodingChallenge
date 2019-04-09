@@ -1,9 +1,10 @@
 import React from "react";
 import { graphql, compose, Query } from "react-apollo";
-import { Select, Spin, Alert } from 'antd';
+import { Select } from 'antd';
 import ADD_WINE from "../../../graphql/mutations/ADD_WINE";
 import WINES from "../../../graphql/queries/WINES";
 import ErrorMessage from "../../ErrorMessage"
+import LoadingMessage from '../../LoadingMessage';
 import "./ListWines.css"
 
 const Option = Select.Option;
@@ -13,17 +14,7 @@ const ListWines = props => {
     <Query query={WINES}>
       {({ loading, error, data }) => {
         if (loading) {
-          return (
-            <div>
-              <Spin tip="Loading...">
-                <Alert
-                  message="Fetching Wines"
-                  description="Fetching Wines from the server."
-                  type="info"
-                />
-              </Spin>
-            </div>
-          );
+          return (<LoadingMessage title="Fetching Wines" message="Fetching Wines from the server." />);
         }
         if (error) {
           return (

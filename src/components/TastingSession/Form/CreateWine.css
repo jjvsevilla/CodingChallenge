@@ -1,7 +1,31 @@
 .create-wine-container {
   margin-top: 0.5em;
 }
-
-.create-wine-container .create-wine-form {
+.create-wine-container
+.create-wine-form {
   margin: 0.5em 0;
+}
+.create-wine-container .main {
+  width: 300px;
+}
+.create-wine-form {
+  border: 1px solid #000000;
+  padding: 20px;
+  margin: 0 10%;
+  border-radius: 2%;
+}
+.create-wine-form .ant-row {
+  margin-bottom: 0.5em;
+}
+.create-wine-form .ant-row:last-child {
+  margin-bottom: 0;
+}
+.number, .select {
+  width: 100%;
+}
+.ant-alert {
+  margin-top: 0.5em;
+}
+.create-wine-form .actions button {
+  margin: 0 10px;
 }

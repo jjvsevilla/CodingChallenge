@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import { Button } from 'antd';
 import ListWines from "./ListWines";
 import WINE_TASTERS from "../../../graphql/queries/WINE_TASTERS";
 import CREATE_WINE_TASTER from "../../../graphql/mutations/CREATE_WINE_TASTER";
+import { Row, Col, Input, InputNumber, Button, Select, Alert } from 'antd';
 import "./CreateWineTaster.css"
+
+const Option = Select.Option;
 
 class CreateWineTaster extends Component {
   state = {
@@ -37,79 +39,94 @@ class CreateWineTaster extends Component {
     } = this.state;
     return (
       <div className="create-wine-taster-container">
-        <Button onClick={this.toggle}>Create New Wine Taster</Button>
+        <Button className="main" onClick={this.toggle}>Create New Wine Taster</Button>
 
         {isOpen ? (
-          <div className="create-wine-taster-form"
-            style={{
-              border: "1px solid black",
-              padding: "20px",
-              margin: "0 10%",
-              borderRadius: "2%",
-            }}
-          >
-            <input
-              name="name"
-              value={name}
-              onChange={this.inputHandler}
-              placeholder="Name"
-            />
-            <input
-              name="nationality"
-              value={nationality}
-              onChange={this.inputHandler}
-              placeholder="Nationality"
-            />
-            <select
-              name="gender"
-              value={this.state.gender}
-              onChange={e => this.setState({ gender: e.target.value })}
-            >
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-            </select>
-            <input
-              name="age"
-              value={age}
-              onChange={e => this.setState({ age: Number(e.target.value) })}
-              type="number"
-              placeholder="Age"
-            />
-            <ListWines
-              childCB={id => this.setState({ favouriteWine: id })}
-              placeholder="Favourite Wine"
-            />
-            <Mutation
-              mutation={CREATE_WINE_TASTER}
-              update={(cache, { data: { createWineTaster } }) => {
-                const { wineTasters } = cache.readQuery({
-                  query: WINE_TASTERS,
-                });
-                cache.writeQuery({
-                  query: WINE_TASTERS,
-                  data: { wineTasters: wineTasters.concat([createWineTaster]) },
-                });
-              }}
-              variables={{
-                name,
-                nationality,
-                gender,
-                age,
-                favouriteWine,
-              }}
-              onCompleted={() =>
-                this.setState({
-                  isOpen: false,
-                  name: "",
-                  nationality: "",
-                  gender: "MALE",
-                  age: undefined,
-                  favouriteWine: undefined,
-                })
-              }
-            >
-              {postMutation => <Button onClick={postMutation}>Submit</Button>}
-            </Mutation>
+          <div className="create-wine-taster-form">
+            <Row>
+              <Col span={24}>
+                <Input name="name" value={name} onChange={this.inputHandler} placeholder="Name" />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Input name="nationality" value={nationality} onChange={this.inputHandler} placeholder="Nationality" />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Select
+                  className="select"
+                  name="gender"
+                  value={gender}
+                  onChange={e => this.setState({ gender: e })}
+                >
+                  <Option value="MALE">Male</Option>
+                  <Option value="FEMALE">Female</Option>
+                </Select>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <InputNumber
+                  className="number"
+                  value={age}
+                  min={0}
+                  max={100}
+                  onChange={e => this.setState({ age: Number(e) })}
+                  placeholder="Age"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <ListWines
+                  childCB={id => this.setState({ favouriteWine: id })}
+                  placeholder="Favourite Wine"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Mutation
+                  mutation={CREATE_WINE_TASTER}
+                  update={(cache, { data: { createWineTaster } }) => {
+                    const { wineTasters } = cache.readQuery({
+                      query: WINE_TASTERS,
+                    });
+                    cache.writeQuery({
+                      query: WINE_TASTERS,
+                      data: { wineTasters: wineTasters.concat([createWineTaster]) },
+                    });
+                  }}
+                  variables={{
+                    name,
+                    nationality,
+                    gender,
+                    age,
+                    favouriteWine,
+                  }}
+                  onCompleted={() =>
+                    this.setState({
+                      isOpen: false,
+                      name: "",
+                      nationality: "",
+                      gender: "MALE",
+                      age: undefined,
+                      favouriteWine: undefined,
+                    })
+                  }
+                >
+                  {(postMutation, { loading, error }) => (
+                    <div className="actions">
+                      <Button loading={loading} onClick={postMutation}>Submit</Button>
+                      <Button type="danger" onClick={this.toggle}>Cancel</Button>
+                      {error && <Alert message={error.message} type="error" />}
+                    </div>
+                  )}
+                </Mutation>
+              </Col>
+            </Row>
           </div>
         ) : null}
       </div>

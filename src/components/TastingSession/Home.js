@@ -37,8 +37,8 @@ class Home extends Component {
           }}
           onCompleted={() => (this.setState({ isOpen: true, isNewFlow: true }))}
         >
-          {postMutation => (!isOpen && !isNewFlow) ? (
-            <Button size="large" className="new-tasting-session" onClick={postMutation}>Create New Tasting Session</Button>
+          {(postMutation, { loading }) => (!isOpen && !isNewFlow) ? (
+            <Button loading={loading} size="large" className="new-tasting-session" onClick={postMutation}>Create New Tasting Session</Button>
           ) : null}
         </Mutation>
 
