@@ -11,6 +11,7 @@ import UPDATE_TASTING_SESSION from "../../../graphql/mutations/UPDATE_TASTING_SE
 import LOCAL_STATE from "../../../graphql/queries/LOCAL_TASTING_SESSION";
 import initialState from "../../../graphql/initialState";
 import TASTING_SESSIONS from "../../../graphql/queries/TASTING_SESSIONS";
+import ErrorMessage from "../../ErrorMessage"
 import "./CreateTastingSession.css"
 
 const CreateTastingSession = props => {
@@ -32,13 +33,7 @@ const CreateTastingSession = props => {
         }
         if (error) {
           return (
-            <div>
-              <Alert
-                message="Something went wrong"
-                description={`Error! ${error.message}`}
-                type="error"
-              />
-            </div>
+            <ErrorMessage error={error.message} />
           )
         }
 
@@ -125,9 +120,10 @@ const CreateTastingSession = props => {
               onCompleted={() => props.toggle(false)}
               refetchQueries={[{query: TASTING_SESSIONS}]}
             >
-              {postMutation => (
+              {(postMutation, { loading }) => (
                 <Button
                   className="separator-top-l"
+                  loading={loading}
                   type="primary"
                   onClick={postMutation}
                 >

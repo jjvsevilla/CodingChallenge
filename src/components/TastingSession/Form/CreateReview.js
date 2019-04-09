@@ -14,20 +14,10 @@ class CreateReview extends Component {
   };
 
   inputHandler = e => {
-    // let { name, value } = e.target;
-    // if (name === "tastingNotes") {
-    //   this.setState({
-    //     tastingNotes: [...e.target.selectedOptions].map(o => o.value),
-    //   });
-    // } else {
-    //   if (name === "score") value = Number(value);
-    //   this.setState({ [name]: value });
-    // }
     this.setState({ score: e });
   };
 
   selectHandler = e => {
-    // console.log('selected', e, e.length);
     this.setState({ tastingNotes: [...e] });
   }
 
@@ -71,7 +61,11 @@ class CreateReview extends Component {
             tastingNotes,
           }}
         >
-          {postMutation => <Button className="button" onClick={postMutation}>Save Review</Button>}
+          {(postMutation, { loading }) =>
+            <Button
+              className="button"
+              loading={loading}
+              onClick={postMutation}>Save Review</Button>}
         </Mutation>
       </div>
     );

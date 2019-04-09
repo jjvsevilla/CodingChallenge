@@ -3,6 +3,7 @@ import { graphql, compose, Query } from "react-apollo";
 import { Select, Spin, Alert } from 'antd';
 import ADD_WINE from "../../../graphql/mutations/ADD_WINE";
 import WINES from "../../../graphql/queries/WINES";
+import ErrorMessage from "../../ErrorMessage"
 import "./ListWines.css"
 
 const Option = Select.Option;
@@ -26,13 +27,7 @@ const ListWines = props => {
         }
         if (error) {
           return (
-            <div>
-              <Alert
-                message="Something went wrong"
-                description={`Error! ${error.message}`}
-                type="error"
-              />
-            </div>
+            <ErrorMessage error={error.message} />
           )
         }
 

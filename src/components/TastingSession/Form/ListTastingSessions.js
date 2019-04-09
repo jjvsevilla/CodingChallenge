@@ -6,6 +6,7 @@ import DELETE_TASTING_SESSION from "../../../graphql/mutations/DELETE_TASTING_SE
 import TastingSession from './TastingSession';
 import TASTING_SESSION from "../../../graphql/queries/TASTING_SESSION";
 import LOCAL_TASTING_SESSION from "../../../graphql/queries/LOCAL_TASTING_SESSION";
+import ErrorMessage from "../../ErrorMessage"
 
 const ListTastingSessions = props => {
   return (
@@ -26,13 +27,7 @@ const ListTastingSessions = props => {
         }
         if (error) {
           return (
-            <div>
-              <Alert
-                message="Something went wrong"
-                description={`Error! ${error.message}`}
-                type="error"
-              />
-            </div>
+            <ErrorMessage error={error.message} />
           )
         }
 
