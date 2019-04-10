@@ -36,11 +36,10 @@ const CreateTastingSession = props => {
         const sessionWineIDs = sessionWines.map(wine => ({ id: wine.id }));
         const sessionWineTastersIDs = sessionWineTasters.map(taster => ({ id: taster.id }));
 
-        console.log('sessionWineTasters', sessionWineTasters)
-
         return (
           <div className="create-tasting-session">
             <h3>{props.isNewFlow ? 'Create New' : 'Update'} Tasting Session</h3>
+            <p className="help-text">SessionId {sessionID}</p>
 
             {!!sessionWines.length && <h4 className="separator-top-l">Selected Wines</h4>}
             <div className="wines-container">
