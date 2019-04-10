@@ -32,6 +32,8 @@ type TastingSession {
   wines: [Wine!]!
   wineTasters: [WineTaster!]!
   reviews: [Review!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 enum WineGrapes {

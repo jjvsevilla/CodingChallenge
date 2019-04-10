@@ -21,10 +21,10 @@ class UpdateReview extends Component {
 
   render() {
     const { score, tastingNotes } = this.state;
-    const { wineTaster, wine, tastingSession, review } = this.props;
+    const { wineTaster, wine, wineName, tastingSession, review } = this.props;
     return (
       <div className="review">
-        <h5>{this.props.wine}</h5>
+        <h5>{wineName}</h5>
         <InputNumber
           className="number"
           min={0}

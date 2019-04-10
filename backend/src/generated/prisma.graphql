@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/juan-jose-vento-sevilla/codingchallenge/dev
-# timestamp: Wed Apr 03 2019 00:08:48 GMT-0500 (Peru Standard Time)
+# timestamp: Wed Apr 10 2019 16:12:08 GMT-0500 (Peru Standard Time)
 
 type AggregateReview {
   count: Int!
@@ -21,6 +21,8 @@ type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
 }
+
+scalar DateTime
 
 enum Gender {
   MALE
@@ -492,6 +494,8 @@ type TastingSession implements Node {
   wines(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Wine!]
   wineTasters(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WineTaster!]
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -534,14 +538,16 @@ type TastingSessionEdge {
 enum TastingSessionOrderByInput {
   id_ASC
   id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type TastingSessionPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type TastingSessionSubscriptionPayload {
@@ -653,6 +659,50 @@ input TastingSessionWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
   wines_every: WineWhereInput
   wines_some: WineWhereInput
   wines_none: WineWhereInput

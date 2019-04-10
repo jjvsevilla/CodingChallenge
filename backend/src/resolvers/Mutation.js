@@ -5,7 +5,6 @@ const Mutations = {
         ...args.data
       }
     }, info);
-    console.log('createTastingSession', tastingSession);
     return tastingSession;
   },
 
@@ -18,7 +17,6 @@ const Mutations = {
         id: args.where.id
       },
     }, info);
-    console.log('updateTastingSession', tastingSession);
     return tastingSession;
   },
 
@@ -28,7 +26,6 @@ const Mutations = {
         id: args.where.id
       },
     }, info);
-    console.log('deleteTastingSession', tastingSession);
     return tastingSession;
   },
 
@@ -38,18 +35,15 @@ const Mutations = {
         ...args.data
       }
     }, info);
-    console.log('createWine', wine);
     return wine;
   },
 
   async createWineTaster(parent, args, ctx, info) {
-    console.log('createWineTaster > params', args.data)
     const wineTaster = await ctx.db.mutation.createWineTaster({
       data: {
         ...args.data
       }
     }, info);
-    console.log('createWineTaster', wineTaster);
     return wineTaster;
   },
 
@@ -59,7 +53,6 @@ const Mutations = {
         ...args.data
       }
     }, info);
-    console.log('createReview', review);
     return review;
   },
 
@@ -72,7 +65,6 @@ const Mutations = {
         id: args.where.id
       },
     }, info);
-    console.log('updateReview', review);
     return review;
   }
 };

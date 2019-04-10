@@ -36,6 +36,8 @@ const CreateTastingSession = props => {
         const sessionWineIDs = sessionWines.map(wine => ({ id: wine.id }));
         const sessionWineTastersIDs = sessionWineTasters.map(taster => ({ id: taster.id }));
 
+        console.log('sessionWineTasters', sessionWineTasters)
+
         return (
           <div className="create-tasting-session">
             <h3>{props.isNewFlow ? 'Create New' : 'Update'} Tasting Session</h3>
@@ -84,6 +86,7 @@ const CreateTastingSession = props => {
                               tastingSession={sessionID}
                               wineTaster={taster.id}
                               wine={wine.id}
+                              wineName={wine.name}
                               review={review}
                             />
                           )
@@ -92,9 +95,10 @@ const CreateTastingSession = props => {
                         return (
                           <CreateReview
                             key={`${taster.name}wine${i}`}
+                            tastingSession={sessionID}
                             wineTaster={taster.id}
                             wine={wine.id}
-                            tastingSession={sessionID}
+                            wineName={wine.name}
                           />
                         );
                       })}

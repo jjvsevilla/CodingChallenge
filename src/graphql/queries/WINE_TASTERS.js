@@ -4,6 +4,7 @@ const WINE_TASTERS = gql`
     wineTasters {
       id
       name
+      nationality
       favouriteWine {
         name
         grapes

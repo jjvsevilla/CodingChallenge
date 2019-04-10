@@ -12,6 +12,8 @@ const TASTING_SESSIONS = gql`
       reviews {
         id
       }
+      createdAt
+      updatedAt
     }
   }
 `;

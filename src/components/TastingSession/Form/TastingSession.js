@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Modal, Button, Alert } from 'antd';
+import { format } from 'date-fns';
 import "./TastingSession.css";
 
 function totalItems(items) {
@@ -19,6 +20,7 @@ class TastingSession extends Component {
       wines,
       wineTasters,
       reviews,
+      createdAt,
       selectTastingSession,
       deleteTastingSession,
       deleting,
@@ -30,6 +32,7 @@ class TastingSession extends Component {
       <li className="tasting-session">
         <p>Tasting SessionId: {id}</p>
         <p>Wines: {`${totalItems(wines)}`} - WineTasters: {`${totalItems(wineTasters)}`} - Reviews: {`${totalItems(reviews)}`}</p>
+        <p>Created at: {format(createdAt, 'MMMM d, YYYY h:mm a')}</p>
         <div className="actions">
           <Button
             onClick={() => selectTastingSession(id)}

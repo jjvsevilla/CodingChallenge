@@ -47,6 +47,8 @@ const TASTING_SESSION = gql`
         score
         tastingNotes
       }
+      createdAt
+      updatedAt
     }
   }
 `;
