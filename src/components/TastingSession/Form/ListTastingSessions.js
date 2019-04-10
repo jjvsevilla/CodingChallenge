@@ -28,18 +28,20 @@ const ListTastingSessions = props => {
             <ul>
               {tastingSessions.map((tastingSession, i) => (
                 <Mutation
+                  key={`tastingSessionMutation${i}`}
                   mutation={DELETE_TASTING_SESSION}
                   variables={{ sessionID: tastingSession.id }}
                   refetchQueries={[{query: TASTING_SESSIONS}]}
                   awaitRefetchQueries={true}
-                  key={`tastingSessionMutation${i}`}
                 >
-                {postMutation => (
+                {(postMutation, { loading, error }) => (
                   <ApolloConsumer>
                     {client => (
                       <TastingSession
                         key={`tastingSession${i}`}
                         {...tastingSession}
+                        deleting={loading}
+                        deleteError={error}
                         selectTastingSession={async (id) => {
                           const { data } = await client.query({
                             query: TASTING_SESSION,

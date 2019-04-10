@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import { Button } from 'antd';
 import CREATE_REVIEW from "../../../graphql/mutations/CREATE_REVIEW";
-import { Select, InputNumber } from 'antd';
+import { Button, Select, InputNumber, Alert } from 'antd';
 import "./CreateReview.css";
 
 const Option = Select.Option;
@@ -13,13 +12,9 @@ class CreateReview extends Component {
     tastingNotes: [],
   };
 
-  inputHandler = e => {
-    this.setState({ score: e });
-  };
+  inputHandler = e => this.setState({ score: e });
 
-  selectHandler = e => {
-    this.setState({ tastingNotes: [...e] });
-  }
+  selectHandler = e => this.setState({ tastingNotes: [...e] });
 
   render() {
     const { score, tastingNotes } = this.state;
@@ -53,19 +48,14 @@ class CreateReview extends Component {
         </Select>
         <Mutation
           mutation={CREATE_REVIEW}
-          variables={{
-            wine,
-            wineTaster,
-            tastingSession,
-            score,
-            tastingNotes,
-          }}
+          variables={{ wine, wineTaster, tastingSession, score, tastingNotes }}
         >
-          {(postMutation, { loading }) =>
-            <Button
-              className="button"
-              loading={loading}
-              onClick={postMutation}>Save Review</Button>}
+          {(postMutation, { loading, error }) => (
+            <div className="actions">
+              <Button loading={loading} onClick={postMutation}>Save Review</Button>
+              {error && <Alert message={error.message} type="error" />}
+            </div>
+          )}
         </Mutation>
       </div>
     );

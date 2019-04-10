@@ -42,7 +42,13 @@ const CreateTastingSession = props => {
 
             {!!sessionWines.length && <h4 className="separator-top-l">Selected Wines</h4>}
             <div className="wines-container">
-              {sessionWines && sessionWines.map((wine, i) => (<div key={`sessionWine${i}`} className="wine">{wine.name}</div>))}
+              {sessionWines && sessionWines.map((wine, i) => (
+                <div key={`sessionWine${i}`} className="wine">
+                  <p>{wine.name} ({wine.year})</p>
+                  <p>{wine.alcohol}% alcohol</p>
+                  <p>${wine.price}</p>
+                </div>
+              ))}
             </div>
             <h5>Choose Wine(s)</h5>
             <div className="wine-list-container">
@@ -63,7 +69,7 @@ const CreateTastingSession = props => {
             <ol>
               {sessionWineTasters && sessionWineTasters.map((taster, i) => (
                 <li key={`sessionTasters${i}`}>
-                    <h4>Wine Taster: {taster.name}</h4>
+                    <h4>Wine Taster: {taster.name} ({taster.nationality})</h4>
                     <div className="reviews-container separator-bottom-m">
                       {sessionWines.map((wine, i) => {
                         const review = sessionReviews.find(review =>
@@ -113,6 +119,7 @@ const CreateTastingSession = props => {
                 }}
                 onCompleted={() => props.toggle(false)}
                 refetchQueries={[{query: TASTING_SESSIONS}]}
+                awaitRefetchQueries={true}
               >
                 {(postMutation, { loading }) => (
                   <Button type="primary" size="large" loading={loading} onClick={postMutation}>Submit Form</Button>

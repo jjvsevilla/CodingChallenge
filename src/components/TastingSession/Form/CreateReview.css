@@ -6,6 +6,9 @@
   width: 100%;
 }
 
-.button {
+.actions {
   margin-top: 0.5em;
+}
+.review .actions button {
+  margin: 0 10px;
 }

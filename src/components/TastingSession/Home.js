@@ -5,6 +5,7 @@ import CreateTastingSession from "./Form/CreateTastingSession";
 import ListTastingSessions from "./Form/ListTastingSessions";
 import CREATE_TASTING_SESSION from "../../graphql/mutations/CREATE_TASTING_SESSION";
 import LOCAL_TASTING_SESSION from "../../graphql/queries/LOCAL_TASTING_SESSION";
+import TASTING_SESSIONS from "../../graphql/queries/TASTING_SESSIONS";
 import './Home.css';
 
 class Home extends Component {
@@ -13,16 +14,10 @@ class Home extends Component {
     isNewFlow: false
   };
 
-  toggle = (isNewFlow = true) => {
-    this.setState({ isOpen: !this.state.isOpen, isNewFlow });
-  };
-
-  setTastingSession = (tastingSessionId) => {
-    this.setState(prevState => ({ isUpdating: !prevState.isUpdating }))
-  }
+  toggle = (isNewFlow = true) => this.setState({ isOpen: !this.state.isOpen, isNewFlow });
 
   render() {
-    const { isOpen, isNewFlow } = this.state;
+    const { isOpen, isNewFlow, isFetching } = this.state;
     return (
       <React.Fragment>
         <Mutation
@@ -36,14 +31,15 @@ class Home extends Component {
             });
           }}
           onCompleted={() => (this.setState({ isOpen: true, isNewFlow: true }))}
+          refetchQueries={[{query: TASTING_SESSIONS}]}
         >
-          {(postMutation, { loading }) => (!isOpen && !isNewFlow) ? (
+          {(postMutation, { loading }) => (!isOpen && !isFetching) ? (
             <Button loading={loading} size="large" className="new-tasting-session" onClick={postMutation}>Create New Tasting Session</Button>
           ) : null}
         </Mutation>
 
-        {(isOpen) && <CreateTastingSession toggle={this.toggle} isNewFlow={isNewFlow} />}
-        {(!isOpen && !isNewFlow)  && <ListTastingSessions toggle={this.toggle} />}
+        {isOpen && <CreateTastingSession toggle={this.toggle} isNewFlow={isNewFlow} />}
+        {!isOpen && <ListTastingSessions toggle={this.toggle} />}
       </React.Fragment>
     );
   }

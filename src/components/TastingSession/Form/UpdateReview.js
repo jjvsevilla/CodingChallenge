@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
-import { Button } from 'antd';
 import UPDATE_REVIEW from "../../../graphql/mutations/UPDATE_REVIEW";
-import { Select, InputNumber } from 'antd';
+import { Select, InputNumber, Button, Alert } from 'antd';
 import "./UpdateReview.css"
 
 const Option = Select.Option;
 
 class UpdateReview extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -17,25 +15,9 @@ class UpdateReview extends Component {
     };
   }
 
-  // inputHandler = e => {
-  //   let { name, value } = e.target;
-  //   if (name === "tastingNotes") {
-  //     this.setState({
-  //       tastingNotes: [...e.target.selectedOptions].map(o => o.value),
-  //     });
-  //   } else {
-  //     if (name === "score") value = Number(value);
-  //     this.setState({ [name]: value });
-  //   }
-  // };
+  inputHandler = e => this.setState({ score: e });
 
-  inputHandler = e => {
-    this.setState({ score: e });
-  };
-
-  selectHandler = e => {
-    this.setState({ tastingNotes: [...e] });
-  }
+  selectHandler = e => this.setState({ tastingNotes: [...e] });
 
   render() {
     const { score, tastingNotes } = this.state;
@@ -53,7 +35,7 @@ class UpdateReview extends Component {
         />
         <Select
           className="select"
-          onChange={this.inputHandler}
+          onChange={this.selectHandler}
           placeholder="Tasting Notes"
           mode="multiple"
           value={tastingNotes}
@@ -80,11 +62,12 @@ class UpdateReview extends Component {
             tastingNotes,
           }}
         >
-          {(postMutation, { loading }) =>
-            <Button
-              className="button"
-              loading={loading}
-              onClick={postMutation}>Update Review</Button>}
+          {(postMutation, { loading, error }) => (
+            <div className="actions">
+              <Button loading={loading}  onClick={postMutation}>Update Review</Button>
+              {error && <Alert message={error.message} type="error" />}
+            </div>
+          )}
         </Mutation>
       </div>
     );

@@ -29,6 +29,10 @@
   flex: 1 0 0;
 }
 
+.wines-container .wine p {
+  margin-bottom: 0;
+}
+
 .create-tasting-session .actions {}
 
 .create-tasting-session .actions button {

@@ -6,14 +6,14 @@
 }
 
 .tasting-session .actions {
-  margin: 0.5em 0 0;  
+  margin: 0.5em 0 0;
 }
 .tasting-session .actions button {
   margin: 0 10px;
 }
 
 .modal-content {
-  margin-top: 32px;
+  /* margin-top: 32px; */
   padding: 0;
 }
 

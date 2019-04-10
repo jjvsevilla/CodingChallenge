@@ -9,10 +9,10 @@
   width: 300px;
 }
 .create-wine-form {
-  border: 1px solid #000000;
+  /* border: 1px solid #000000;
   padding: 20px;
   margin: 0 10%;
-  border-radius: 2%;
+  border-radius: 2%; */
 }
 .create-wine-form .ant-row {
   margin-bottom: 0.5em;

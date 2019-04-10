@@ -10,8 +10,6 @@ const Mutations = {
   },
 
   async updateTastingSession(parent, args, ctx, info) {
-    console.log('updateTastingSession', args)
-
     const tastingSession = await ctx.db.mutation.updateTastingSession({
       data: {
         ...args.data
@@ -45,6 +43,7 @@ const Mutations = {
   },
 
   async createWineTaster(parent, args, ctx, info) {
+    console.log('createWineTaster > params', args.data)
     const wineTaster = await ctx.db.mutation.createWineTaster({
       data: {
         ...args.data
